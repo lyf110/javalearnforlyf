@@ -1,0 +1,45 @@
+练习：完成DDL的操作
+1. 使用JDBC在MySQL的MyDB1中创建一张学生表，建表的SQL如下
+	create table student (id int primary key auto_increment,name varchar(10) not null unique,gender char(1))
+	
+2. 代码：
+public class Demo2 {
+
+	public static void main(String[] args) {
+		String sql = "create table student (	id int primary key auto_increment,name varchar(10) not null unique,gender char(1))";
+		String url = "jdbc:mysql://localhost:3306/day16";
+		Connection conn = null;
+		Statement stmt = null;
+		//1. 加载驱动
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			//2. 创建连接
+			conn = DriverManager.getConnection(url, "root", "root");
+			//3. 创建语句对象
+			stmt = conn.createStatement();
+			//4. 执行DDL语句
+			int row = stmt.executeUpdate(sql);
+			//ddl的操作不影响行数
+			System.out.println(row);
+			System.out.println("添加学生表成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			//先开的后关
+			if (stmt!=null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn!=null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+}

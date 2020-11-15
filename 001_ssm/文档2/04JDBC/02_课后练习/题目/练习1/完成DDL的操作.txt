@@ -1,0 +1,4 @@
+练习：完成DDL的操作
+1. 使用JDBC在MySQL的MyDB1中创建一张学生表，建表的SQL如下
+	create table student (id int primary key auto_increment,name varchar(10) not null unique,gender char(1))
+	

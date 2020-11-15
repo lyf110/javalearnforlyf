@@ -1,0 +1,265 @@
+创建员工表和员工类，包含字段：编号，姓名，性别，入职日期，工资
+
+create table employee(
+	id int primary key auto_increment,
+	name varchar(10),
+	gender char(1),
+	joinDate date,
+	salary double
+);
+
+/**
+ * 员工类
+ * @author Administrator
+ *
+ */
+public class Employee {
+
+	private Integer id;
+	private String name;
+	private Date joinDate;
+	private Double salary;
+	public Employee() {
+		super();
+	}
+	public Employee(Integer id, String name, Date joinDate, Double salary) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.joinDate = joinDate;
+		this.salary = salary;
+	}
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Date getJoinDate() {
+		return joinDate;
+	}
+	public void setJoinDate(Date joinDate) {
+		this.joinDate = joinDate;
+	}
+	public Double getSalary() {
+		return salary;
+	}
+	public void setSalary(Double salary) {
+		this.salary = salary;
+	}
+	@Override
+	public String toString() {
+		return "Employee [id=" + id + ", name=" + name + ", joinDate="
+				+ joinDate + ", salary=" + salary + "]";
+	}
+	
+}
+
+
+
+1. 使用PreparedStatement向员工表中插入3条记录。
+	@Test
+	public void add(){
+		//1.创建连接
+		Connection conn = null;
+		PreparedStatement ps = null;
+		//2. 得到语句
+		try {
+			conn = JdbcUtil.getConnection();
+			//使用占位符来代替变量
+			ps = conn.prepareStatement("insert into employee (name,gender,joinDate,salary) values(?,?,?,?)");
+			//使用真实的值来替换占位符
+			ps.setString(1, "张三");
+			ps.setString(2, "男");
+			ps.setDate(3, java.sql.Date.valueOf("1999-9-9"));   //把字符串转成日期
+			ps.setDouble(4,2000 ); 
+			ps.executeUpdate();
+			
+			ps.setString(1, "李四");
+			ps.setString(2, "男");
+			ps.setDate(3, java.sql.Date.valueOf("2009-9-9"));   //把字符串转成日期
+			ps.setDouble(4,4000 ); 
+			ps.executeUpdate();
+			
+			ps.setString(1, "王五");
+			ps.setString(2, "男");
+			ps.setDate(3, java.sql.Date.valueOf("1998-9-9"));   //把字符串转成日期
+			ps.setDouble(4,5000 ); 
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(conn, ps);
+		}
+	}
+	
+2. 使用PreparedStatement，将3号员工的名字改成"猪八戒"，工资还在5300，入职日期改成2017-02-01
+	@Test
+	public void update(){
+		//1.创建连接
+		Connection conn = null;
+		PreparedStatement ps = null;
+		//2. 得到语句
+		try {
+			conn = JdbcUtil.getConnection();
+			//使用占位符来代替变量
+			ps = conn.prepareStatement("update employee set name=?,joinDate=? where id=?");
+			//使用真实的值来替换占位符
+			ps.setString(1, "猪八戒");
+			ps.setDate(2, java.sql.Date.valueOf("2017-02-01"));
+			ps.setInt(3, 3);   //把字符串转成日期
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(conn, ps);
+		}
+	}
+	
+3. 查询所有的员工类，封装成List<Employee>返回
+	public List<Employee> query(){
+		//1.创建连接
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs=null;
+		List<Employee> list=new ArrayList<Employee>();
+		//2. 得到语句
+		try {
+			conn = JdbcUtil.getConnection();
+			//使用占位符来代替变量
+			ps = conn.prepareStatement("select *from employee");
+			rs=ps.executeQuery();
+			while(rs.next()){
+				//创建一个员工
+				Employee e=new Employee();
+				e.setId(rs.getInt("id"));
+				e.setName(rs.getString("name"));
+				e.setJoinDate(rs.getDate("joinDate"));
+				e.setSalary(rs.getDouble("salary"));
+				//添加到集合
+				list.add(e);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(conn, ps,rs);
+		}
+		return list;
+	}
+	
+4. 查询所有员工的平均工资
+	@Test
+	public void avgSalary() {
+		//1.创建连接
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs=null;
+		//2. 得到语句
+		try {
+			conn = JdbcUtil.getConnection();
+			//使用占位符来代替变量
+			ps = conn.prepareStatement("select avg(salary) as avgSalary from employee");
+			rs=ps.executeQuery();
+			if(rs.next()){
+				Double sal= rs.getDouble("avgSalary");
+				System.out.println("平均工资："+sal);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(conn, ps,rs);
+		}
+	}
+	
+5. 查询所有姓张的员工的信息
+	public List<Employee> queryZhang() {
+		// 1.创建连接
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Employee> list = new ArrayList<Employee>();
+		// 2. 得到语句
+		try {
+			conn = JdbcUtil.getConnection();
+			// 使用占位符来代替变量
+			ps = conn.prepareStatement("select *from employee where name like ?");
+			ps.setString(1, "张%");
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				// 创建一个员工
+				Employee e = new Employee();
+				e.setId(rs.getInt("id"));
+				e.setName(rs.getString("name"));
+				e.setJoinDate(rs.getDate("joinDate"));
+				e.setSalary(rs.getDouble("salary"));
+				// 添加到集合
+				list.add(e);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(conn, ps, rs);
+		}
+		return list;
+	}
+	
+6. 编写方法：通过ID查询指定员工的信息，并且封装成一个员工对象返回
+	public Employee findById(int id) {
+		Employee employee = null;
+		// 1.创建连接
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		// 2. 得到语句
+		try {
+			conn = JdbcUtil.getConnection();
+			// 使用占位符来代替变量
+			ps = conn
+					.prepareStatement("select *from employee where id=?");
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			if (rs.next()) {
+				// 创建一个员工
+				employee = new Employee();
+				employee.setId(rs.getInt("id"));
+				employee.setName(rs.getString("name"));
+				employee.setJoinDate(rs.getDate("joinDate"));
+				employee.setSalary(rs.getDouble("salary"));
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(conn, ps, rs);
+		}
+		return employee;
+	}
+	
+7. 编写方法：通过ID删除指定的员工，并且返回删除的行数
+	public int deleteById(int id){
+		int row=0;
+		// 1.创建连接
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		// 2. 得到语句
+		try {
+			conn = JdbcUtil.getConnection();
+			// 使用占位符来代替变量
+			ps = conn
+					.prepareStatement("delete from employee where id=?");
+			ps.setInt(1, id);
+			row=ps.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcUtil.close(conn, ps, rs);
+		}
+		return row;
+	}

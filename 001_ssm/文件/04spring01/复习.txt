@@ -1,0 +1,40 @@
+一, 懒加载
+	1.等使用的时候再查询
+	2. 一对一
+		*多表查询语句 改成单表查询
+		*association标签里面加了属性:
+			select="调用Dao查询" column="" fetchType=""
+	3. 一对多
+		*多表查询语句 改成单表查询
+		*collection标签里面加了属性:
+			select="调用Dao查询" column="" fetchType=""
+	
+	
+二, 缓存
+	1.一级缓存 
+		sqlSession
+		自带不可卸载
+		保存对象地址
+	2.二级缓存
+		sqlSessionFactory
+		配置
+		保存对象的值
+		
+三, 注解开发
+	1.基本的CRUD
+		*@Insert("sql语句")
+			@SelectKey()
+		*@Delete("sql语句")
+		*@Update("sql语句")
+		*@Select("sql语句")
+			
+	
+	2.复杂的映射
+		@Results() 代替ResultMap
+		@Result()  代替id(设置id属性=true),result,
+				association(one=@One(select="", fetchType="")),
+				collection
+	
+
+
+

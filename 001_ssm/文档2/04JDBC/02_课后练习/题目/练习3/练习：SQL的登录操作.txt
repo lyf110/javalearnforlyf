@@ -1,0 +1,16 @@
+需求：
+	1). 创建一个工具类JdbcUtil
+	2). 用户通过控制台输入用户名和密码，实现登录的功能。如果用户名和密码输入正确，则登录成功。
+	
+1. 有一张用户表
+	CREATE TABLE USER (
+		id INT AUTO_INCREMENT PRIMARY KEY,
+		NAME VARCHAR(50),
+		PASSWORD VARCHAR(50)
+	)
+
+2. 添加几条用户记录
+	INSERT INTO user (NAME, PASSWORD) VALUES ('admin', '123');
+
+3.使用Statement字符串拼接的方式实现用户的登录, 用户在控制台上输入用户名和密码。
+

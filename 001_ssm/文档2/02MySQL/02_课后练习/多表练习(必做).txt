@@ -1,0 +1,60 @@
+--	新建一个day09_exercise的数据库
+	create database day09_exercise;
+	use day09_exercise;
+
+-- 用户表(user) 
+   create table `user` (                                  
+          `id` int auto_increment primary key,                
+          `username` varchar(50)  -- 用户姓名                                                
+        );
+
+-- 订单表(orders)
+   create table `orders` (                                                  
+          `id` int  auto_increment primary key,                                  
+          `price` double,                                           
+          `user_id` int                                       
+        );
+-- 给订单表添加外键约束
+alter table orders add constraint user_fk foreign key (user_id) references user(id); 
+
+-- 向user表中添加数据
+		insert into user values(3,'张三');
+		insert into user values(4,'李四');
+		insert into user values(5,'王五');
+		insert into user values(6,'赵六');
+
+-- 向orders 表中插入数据
+		insert into orders values(1,1314,3);
+		insert into orders values(2,1314,3);
+		insert into orders values(3,15,4);
+		insert into orders values(4,315,5);
+		insert into orders values(5,1014,null);
+
+
+练习:
+--查询用户的订单,没有订单的用户不显示
+	select *from user,orders where user.id=orders.user_id;
+	或者select * from user join orders on user.id=orders.user_id;
+--查询所有用户的订单详情
+	select *from user left join orders on user.id=orders.user_id;
+--查询所有订单的用户详情
+	select *from user right join orders on user.id=orders.user_id;
+
+
+
+练习:
+--查看用户为张三的订单详情
+	思路:查看用户为张三的订单详情
+		select id from user where username = "张三";
+		select * from orders where user_id = ?
+			
+	合二为一:
+	答案:select * from orders where user_id = (select id from user where username = "张三");
+--查询出订单的价格大于300的所有用户信息。
+	思路:select user_id from orders where price>300;-- 3 3 5 null
+	select * from user where id in ();
+				
+	合二为一:
+	答案:select * from user where id in (select user_id from orders where price>300);
+--查询订单价格大于300的订单信息及相关用户的信息。
+	SELECT *FROM USER,orders WHERE user.id=orders.user_id AND orders.price > 300;

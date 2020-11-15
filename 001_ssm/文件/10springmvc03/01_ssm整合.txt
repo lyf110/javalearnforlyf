@@ -1,0 +1,68 @@
+一, 整合环境准备
+	1.创建数据库和表
+	2.创建工程(war),导入坐标
+	3.创建pojo
+	4.拷贝log4J配置文件  
+二, Spring整合SpringMVC
+	1.初步版本(SpringMVC独立运行)
+		*创建Controller类,定义方法,添加注解
+		*创建springmvc.xml(开启包扫描,配置视图解析器,配置注解驱动,忽略静态资源)
+		*在web.xml配置核心控制器(初始化参数,启动项)和编码过滤器 
+		*测试
+	2. 终极版本(注入业务层)
+		*注册业务
+		*在Controller注入业务对象
+三, Spring整合MyBatis
+	1. 初级版本(MyBatis独立运行) 注解版
+		*创建Dao接口, 定义方法, 添加注解(写sql语句)
+		*创建MyBatis的主配置文件 SqlMapConfig
+		*编写单元测试
+	2. 初级版本问题
+		* 还是MyBatis在管理连接池 ---> 交给Spring管理连接池
+		* SqlSessionFactory还是我们根据读取SqlMapConfig来创建的 --> 在application.xml注册SqlSessionFactory
+		* 还是MyBatis在包扫描	  ---> 在application.xml注册扫描器
+		* 还是MyBatis在管理事务   ---> 交给Spring管理事务
+	3. 终极版本(SqlMapConfig里面的内容全部配置在applicationContext.xml)
+		* 创建applicationContext.xml
+		* 注册连接池 
+		* 注册SqlSessionFactory
+		* 注册扫描器
+		* 配置事务
+		* 加载applicationContext.xml
+			(1.不要写applicationContext.xml, 把文件的内容全部拷贝到springmvc.xml
+			 2.	把springmvc.xml当做载体, 把applicationContext.xml导入到springmvc.xml
+			 3. 使用监听器 ServletContextListener
+			)
+----------------------------------------------------------------------------------
+WEB---Service---Dao
+1.WEB(SpringMVC)
+	*创建Controller类, 定义方法, 添加注解
+	*创建springmvc.xml(开启包扫描,配置视图解析器,配置注解驱动,忽略静态资源)
+	*在web.xml里面配置核心控制器(初始化参数,启动项)+编码过滤器
+	*在Controller 注入业务层
+2.Service
+	* 注册业务, 注入Dao
+	* 配置事务
+3.Dao(MyBatis)
+	* 注册数据源
+	* 注册SqlSessionFactory
+	* 注册扫描器
+	
+	applicationContext.xml 导入到springmvc.xml
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+
+	

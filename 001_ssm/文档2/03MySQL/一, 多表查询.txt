@@ -1,0 +1,64 @@
+#一, 连接查询
+# 1. 交叉查询
+select * from t_category, t_product;
+
+select c.cname, p.pname from t_category  c, t_product  p;
+select c.*, p.* from t_category  c, t_product  p;
+# 2. 内连接查询(查询的是公共部分, 查询的是满足c.cid = p.cno的部分)
+-- 查询所有类别下的商品信息,如果该类别下没有商品则不展示.
+-- 2.1 隐式内连接方式 
+select *from t_category  c, t_product  p WHERE c.cid = p.cno;
+-- 2.2 显示内连接方式  
+SELECT * from t_category c INNER JOIN t_product p ON c.cid = p.cno
+
+-- 查询所有类别下的商品信息,如果该类别下没有商品则不展示(并且商品价格>2000的).
+-- 2.1 隐式内连接方式 
+select *from t_category  c, t_product  p WHERE c.cid = p.cno AND p.price > 2000
+-- 2.2 显示内连接方式  
+SELECT * from t_category c INNER JOIN t_product p ON c.cid = p.cno WHERE p.price > 2000
+
+
+# 3. 外连接查询
+-- 查询所有类别下的商品信息.
+-- 3.1左外连接(以左边的表为主表,查询左边表的所有,通过连接条件匹配出右边表的数据;满足条件,右边表的数据就展示; 如果不满足条件,右边表的数据通过null来代替)
+-- select * from a left [outer] join b on 条件
+SELECT * FROM t_category c LEFT OUTER JOIN t_product p ON c.cid = p.cno
+
+-- 查询所有商品所对应的类别信息
+-- 3.2 右外连接
+SELECT * FROM t_category c RIGHT  OUTER JOIN t_product p ON c.cid = p.cno
+
+
+# 二, 子查询
+# 2.1 查询价格高于iPhone5s的商品信息
+-- 查询IPhone5s的价格
+SELECT price FROM t_product where pname = 'iPhone5s'
+-- 查询价格高于iPhone5s的商品信息
+SELECT * FROM t_product WHERE price > (SELECT price FROM t_product where pname = 'iPhone5s')
+
+# 2.2 子查询结果是一个值的情况, 用在父查询的条件 eg : > < =
+--  查询类别是手机数码的所有商品信息
+-- a 查询cname=手机数码对应cid
+SELECT cid FROM t_category WHERE cname = '手机数码'
+-- b 把上面查询的结果作为条件
+SELECT * FROM t_product  WHERE cno = (SELECT cid FROM t_category WHERE cname = '手机数码')
+
+-- 查询和方便面是同一类别的商品信息,但是不包括方便面
+-- a 查询 pname=方便面 这个商品对应的cno
+SELECT cno FROM t_product WHERE pname ='方便面'
+-- b 把上面查询的结果作为条件
+SELECT * FROM t_product WHERE cno = (SELECT cno FROM t_product WHERE pname ='方便面') AND pname <> '方便面'
+
+# 2.3 子查询的结果是单列多行的情况 ; SELECT 查询字段 FROM 表 WHERE 字段 IN （子查询）;
+-- 查询类别属于手机数码和食物的商品信息
+-- a 查询出 cname为手机数码和食物cid集合
+SELECT cid FROM t_category WHERE cname in('手机数码','食物')
+-- b 把上面的结果作为条件
+SELECT * FROM t_product WHERE cno in (SELECT cid FROM t_category WHERE cname in('手机数码','食物'))
+
+# 2.4 子查询是多行多列情况  SELECT 查询字段 FROM （子查询） 表别名 WHERE 条件;
+-- 查询所属类别编号(cno)是1的商品里面的最高价格
+-- a 类别编号(cno)是1的商品
+SELECT * FROM t_product WHERE cno = 1  
+-- b 把上面的结果作为虚拟表, 从结果里面再查询
+SELECT MAX(p2.price) FROM (SELECT * FROM t_product WHERE cno = 1) as p2

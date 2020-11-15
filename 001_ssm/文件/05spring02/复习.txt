@@ -1,0 +1,53 @@
+一, Spring概念
+	Spring一站式框架.
+	三层开发都会用到Spring
+	SpringFrameWork= IOC+AOP
+二, IOC概念
+	控制反转.对象的创建权交给Spring. 
+三, IOC入门
+	1.创建工程, 导入坐标
+	2.创建接口和实现类
+	3.创建applicationContext.xml, 注册bean
+	4.获得工厂,获得bean
+
+四, applicationContext.xml
+	<bean id/name="" class="" scope="" init-method="" destroy-method=""></bean>
+
+五, 工厂
+	*旧
+	*新
+	
+
+六, 注入: Spring创建bean的时候, 也把bean字段进行赋值
+	1.构造方法方式
+		*定义字段
+		*提交构造方法
+		*在bean标签里面配置
+			 <constructor-arg name="name" value="张三"/>
+			 <constructor-arg name="name" ref="张三"/>
+	
+	2.Set方法方式
+		*定义字段
+		*提供set方法
+		*在在bean标签里面配置
+			<property name="" value=""></property>
+			<property name="">
+				<array>
+					<value></value>
+				</array>
+			</property>
+			
+			<property name="">
+				<map>
+					<entry key="" value=""></entry>
+				</map>
+			</property>
+			
+			<property name="" ref="">
+			</property>
+
+
+	
+
+	
+	

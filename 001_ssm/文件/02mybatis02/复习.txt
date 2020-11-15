@@ -1,0 +1,71 @@
+1. ssm
+2. Maven高级  vue dubbo 
+3. 项目
+
+
+一, 概念
+	1.框架: 软件半成品. 开发项目提升效率.
+	2.MyBatis: 持久层框架, 封装了Jdbc. 
+			   性能优秀, sql和java分离.
+
+二. MyBatis CRUD
+	1.步骤:
+		*创建一个Maven工程(导入坐标)
+		*创建pojo
+		*创建Dao接口
+		*创建Dao映射文件
+		*创建SqlMapConfig.xml
+		*编写Java
+
+	1.在Dao接口定义方法
+	2.在Dao映射文件进行配置
+	
+	<insert id="Dao接口方法名" parameterType="" resultType="">
+		sql
+	</insert>
+	
+	<update id="Dao接口方法名" parameterType="" resultType="">
+		sql
+	</update>
+	
+	<delete id="Dao接口方法名" parameterType="" resultType="">
+		sql
+	</delete>
+	
+	<select id="Dao接口方法名" parameterType="" resultType="">
+		sql
+	</select>
+二, 参数深入
+	1.parameterType
+		*简单(基本,String)类型: 
+			#{任意字段} 或者 ${value}
+		*pojo对象
+			#{对象的属性}
+		*pojo的包装类型
+			#{对象(属性).属性}
+			class QueryVo{
+			
+				private User user;
+			}	
+			
+			#{user.属性}
+		
+		
+		
+	2.resultType
+		*简单(基本,String)类型  
+			直接写的对应的java类
+		*pojo对象
+			pojo类全限定名
+		*pojo列表 List<User> list
+			pojo类全限定名
+			
+	3.resultMap
+		*数据库的列和pojo属性不一致
+		
+		*复杂的映射(多表)
+
+	
+		
+	
+			

@@ -1,0 +1,32 @@
+一, Vue基本概念
+	js框架. 写前端逻辑方便
+二, 入门
+	*导入vue.js
+	*创建div
+	*创建vue实例
+	
+三, 指令
+	1.事件  把js事件on改成了@  eg:onclick=""  @click=""
+	2.v-text 
+	  v-html
+	3.v-bind  把插值的语法用在标签的属性上
+	  v-model 绑定
+	4.v-for="(元素,索引) in 集合"   遍历
+	5.v-if="boolean类型插值的语法"
+	  v-show="boolean类型插值的语法"
+四,生命周期
+	created
+	mounted
+五, axios
+	1. vue里面的ajax
+	2. 步骤:
+		导入axios
+		使用get/post
+	3. axios.get("请求路径?id=1").then(function(response){}).catch(function(error){})
+	   axios.post("请求路径",请求参数{}).then(function(response){}).catch(function(error){})
+	
+		
+	
+	
+	
+	

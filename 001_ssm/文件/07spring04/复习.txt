@@ -1,0 +1,42 @@
+一, AOP概述
+	1.面向切面编程
+	2.作用: 不改源码情况下, 对目标方法进行增强
+	3.底层: 动态代理
+			*JDK: 	接口
+			*CgLib: 父类
+二, 连接点
+	切入点
+	通知
+	切面
+	
+三, xml方式实现AOP
+	1.定义业务类,Dao, 增强的类, 进行注册
+	2.配置AOP
+		<aop:config>
+			<aop:pointCut id="" expression=""></aop:pointCut>
+			<aop:aspect ref="">
+				<aop:before method="" pointCut-ref=""></aop:before>
+				<aop:after-returing method="" pointCut-ref=""></after-returing>
+				<aop:aroud method="" pointCut-ref=""></aop:aroud>
+			</aop:aspect>
+		</aop:config>
+	
+	
+
+四. 注解方式实现AOP
+	1.定义业务类,Dao, 增强的类, 进行注册
+	2.开启AOP注解
+	3.在增强的类上面添加@Aspect
+
+
+
+
+
+
+ 
+
+
+
+
+
+	

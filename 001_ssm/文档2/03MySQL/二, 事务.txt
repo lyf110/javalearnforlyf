@@ -1,0 +1,47 @@
+# 二, 事务
+-- 1. 环境搭建
+create table account(
+    id int primary key auto_increment,
+    name varchar(20),
+    money double
+);
+
+insert into account values (null,'zs',1000);
+insert into account values (null,'ls',1000);
+insert into account values (null,'ww',1000);
+
+-- 2, 事务类别   
+-- 2.1 自动事务(默认) 一条sql语句就是一个事务(自动生效了);   zs给ls转100
+UPDATE account SET  money =  money -100 WHERE name = 'zs';
+UPDATE account SET  money =  money +100 WHERE name = 'ls';
+-- 2.2 手动事务(掌握) 不管是提交还是回滚,当前的这个事务都结束了; 提交成功了,就不能回滚了.
+-- 手动开启一个事物
+START TRANSACTION;
+-- 操作数据库单元
+UPDATE account SET  money =  money -100 WHERE name = 'zs';
+SELECT * FROM account;
+-- 提交事务(会生效的), 
+COMMIT
+-- 回滚事务(不会生效的)
+ROLLBACK
+
+-- 3, 回滚点
+
+-- 开启事务
+START TRANSACTION;
+-- 让zs每一次减少100 (减6次)  
+UPDATE account SET money = money - 100 where name = 'zs'
+UPDATE account SET money = money - 100 where name = 'zs'
+UPDATE account SET money = money - 100 where name = 'zs'
+
+-- 设置一个回滚点
+SAVEPOINT three_times
+
+UPDATE account SET money = money - 100 where name = 'zs'
+UPDATE account SET money = money - 100 where name = 'zs'
+UPDATE account SET money = money - 100 where name = 'zs'
+
+SELECT * FROM account
+-- 回滚到第三次
+ROLLBACK TO three_times
+

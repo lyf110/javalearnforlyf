@@ -1,0 +1,14 @@
+一.复习JDBCTemplate
+二,Spring整个连接池【重点】
+	1.添加连接池的坐标
+	2.改DataSource的class属性值, 参数
+三, Spring管理事务【重点】
+	1.xml
+		*注册事务管理器(注入DataSource)
+		*配置事务建议(规则)
+		*配置AOP
+		
+	2.注解
+		*注册事务管理器(注入DataSource)
+		*开启事务注解
+		*在业务类什么添加

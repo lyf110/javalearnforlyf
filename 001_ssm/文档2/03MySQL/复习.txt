@@ -1,0 +1,24 @@
+一,可视化工具
+二, 查询
+	1. 排序查询
+		order by 列 [asc/desc]
+	2. 分组查询
+		group by 列 [having 条件]
+	3. 分页查询
+		limit a ,b;
+		b一页查询数据 (固定)
+		a =(当前页码-1)*b; 
+	4. 查询语法
+		select ... from ...where...group...having...order...limit
+		
+三, 外键约束
+	1.作用: 维护多表关系. 保证引用完整性
+	2.语法:
+		alter table 表 add foreign key(列) references 表(列)
+四, 多表关系
+	1.1对多   类别和商品,用户和订单
+	2.多对多  学生和课程,用户和角色 
+	3.1对1
+五, 三大范式(面试)
+	
+	

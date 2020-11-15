@@ -1,0 +1,90 @@
+一, MyBatis 
+	1.xml方式和注解方式单表的CRUD
+		<select id="" parameterType="" resultType="">
+			sql语句
+		</select>
+		
+		@Insert("sql语句"),@Delete("sql语句")
+		@Update("sql语句"),@Select("sql语句")
+
+	2.多表关系创建(掌握) 
+		2.1 1对1
+			*pojo用javaBean对象
+			*使用ResultMap
+			*association关联一的一方 
+		2.2 1对多
+			*pojo用List
+			*使用ResultMap
+			*collection管理多方
+			
+		2.3 多对多
+			*pojo用List
+			*使用ResultMap
+			*collection管理多方
+	
+	3.MyBatis一级二级缓存【面试之前背】
+	
+	4.MyBatis懒加载【面试】
+		2.1 1对1
+			①xml
+				*pojo用javaBean对象
+				*多表拆成单表查询
+				*association关联一的一方 (select,fetchType)
+			②注解
+				*pojo用javaBean对象
+				*多表拆成单表查询
+				*@Results(
+					@Result(
+                    one=@One(select = "com.itheima.dao.UserDao.findByUid",fetchType = FetchType.LAZY ))
+				  )		
+			
+		2.2 1对多
+			①xml
+				*pojo用List对象
+				*多表拆成单表查询
+				*collection关联一的一方 (select,fetchType)
+			②注解
+				*pojo用List对象
+				*多表拆成单表查询
+				*@Results(
+					@Result(
+                    many=@Many(select = "com.itheima.dao.UserDao.findByUid",fetchType = FetchType.LAZY ))
+				  )				
+	
+二,Spring
+	1.xml和注解方式的注册	
+		1.1 xml 方式
+			<bean id="" class="" scope=""></bean>
+		1.2 注解 方式
+			@Component
+			@Controller
+			@Service
+			@Repository
+	
+	2.xml和注解方式的注入
+		2.1 xml 方式
+			构造方法
+			set
+		2.2 注解 方式
+			@Value()
+			
+			@AutoWired
+			@Resource(name="")
+	
+	3.Spring管理数据源
+	4.Spring管理事务
+	5.纯注解(方便学习SpringBooot)
+	6.谈谈你对IOC AOP理解(面试)
+	
+三, SpringMVC
+	1.SpringMVC入门步骤
+	2.参数绑定(获得请求参数)
+		*简单类型
+		*pojo类型
+		*pojo包含List,Map
+		
+	3.响应(返回值String ModelAndView, 转发重定向, 响应json)
+	4.拦截器入门
+	5.异常处理器
+	6.文件上传(传统方式)
+	7.SpringMVC执行流程(面试)

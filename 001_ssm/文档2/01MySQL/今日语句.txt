@@ -1,0 +1,114 @@
+# 环境准备
+CREATE TABLE student(
+	sid INT PRIMARY KEY auto_increment,
+	sname varchar(40),
+	sex varchar(10),
+	chinese DOUBLE,
+	math DOUBLE,
+	english DOUBLE
+);
+
+INSERT INTO student VALUES(null,'zs','男',58,100,28);
+INSERT INTO student VALUES(null,'ls','男',58,100,88);
+INSERT INTO student VALUES(null,'ww','女',98,100,100);
+INSERT INTO student VALUES(null,'zl','男',58,100,88);
+INSERT INTO student VALUES(null,'wb','男',100,100,68);
+INSERT INTO student VALUES(null,'小丽','男',58,100,88);
+INSERT INTO student VALUES(null,'翠花','男',18,100,88);
+INSERT INTO student VALUES(null,'小红','女',58,80,98);
+INSERT INTO student VALUES(null,'小李','男',null,100,58);
+
+
+
+# 一 查询  
+-- 1.排序查询 SELECT 字段名 FROM 表名  ORDER BY 字段名 [ASC|DESC]; asc升序(默认的), desc降序
+-- 查询学生的信息, 以语文成绩来排序(降序)  
+SELECT * FROM student  ORDER BY chinese DESC
+-- 查询学生的信息, 以语文成绩来排序(降序) , 如果语文成绩一样,再按照英语成绩来降序排序
+SELECT * FROM student ORDER BY chinese DESC, english DESC
+-- 2. 聚合查询
+-- 查询出语文成绩的最高分
+SELECT MAX(chinese) AS '语文最高分' FROM student
+-- 查询出英语学科的平均分
+SELECT AVG(english) FROM student
+-- 统计学生表有多少记录
+SELECT COUNT(sid) FROM student
+SELECT COUNT(*) FROM student
+-- 求出语文的总成绩
+SELECT SUM(chinese) FROM student
+
+-- 3. 分组查询
+-- 直接根据sex分组(单独分组没有实际意义的,把每一组的第一条数据返回了; 
+-- 分组通常都是为了统计, 通常和聚合函数一起用)
+SELECT * FROM student GROUP BY sex
+--  统计每一个性别下的学生人数
+SELECT  sex, COUNT(*) FROM student GROUP BY sex
+-- 统计每一个性别下的学生人数, 并且人数>4的(分组后筛选)
+SELECT  sex, COUNT(*) FROM student GROUP BY sex HAVING COUNT(*) > 4
+
+-- 4 分页查询 limit a ,b 
+-- b: 一页显示的数量(我们自己定义的)
+-- a: 从哪里开始查询(从0开始计数); a = (当前页码 -1)*b;
+-- 分页查询学生 一页展示3个
+-- 第一页 a = 0,  b = 3;
+SELECT * FROM student LIMIT 0,3
+-- 第二页 a = 3 ,  b = 3;
+SELECT * FROM student LIMIT 3,3
+-- 第三页 a = 6 ,  b = 3;
+SELECT * FROM student LIMIT 6,3
+-- 第四页 a = 9 ,  b = 3;
+SELECT * FROM student LIMIT 9,3
+
+
+SELECT * FROM student
+
+# 二, 多表间的关系
+-- 0 环境准备
+-- 创建一张分类表(类别id,类别名称.备注:类别id为主键并且自动增长)
+CREATE TABLE t_category(
+		cid INT PRIMARY KEY auto_increment,
+		cname VARCHAR(40)
+);
+INSERT INTO t_category values(null,'手机数码');
+INSERT INTO t_category values(null,'食物');
+
+
+-- 创建一张商品表(商品id,商品名称,商品价格,商品数量,类别.备注:商品id为主键并且自动增长)
+
+CREATE TABLE t_product(
+		pid INT PRIMARY KEY auto_increment,
+		pname VARCHAR(40),
+		price DOUBLE,
+		num INT,
+		cno INT
+);
+
+insert into t_product values(null,'苹果电脑',18000,10,1);
+insert into t_product values(null,'iPhone8s',5500,100,1);
+insert into t_product values(null,'iPhone7',5000,100,1);
+insert into t_product values(null,'iPhone6s',4500,1000,1);
+insert into t_product values(null,'iPhone6',3800,200,1);
+insert into t_product values(null,'iPhone5s',2000,10,1);
+insert into t_product values(null,'iPhone4s',18000,1,1);
+
+insert into t_product values(null,'方便面',4.5,1000,2);
+insert into t_product values(null,'咖啡',10,100,2);
+insert into t_product values(null,'矿泉水',2.5,100,2);
+
+-- 1. 添加外键  alter table 表 add [CONSTRAINT] [外键名称] foreign key(字段) references 表（字段)
+-- 给 商品表添加外键
+ALTER TABLE t_product ADD FOREIGN KEY(cno) REFERENCES t_category(cid);
+
+
+
+
+
+
+
+
+
+
+
+
+
+

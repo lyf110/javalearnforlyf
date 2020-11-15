@@ -1,0 +1,33 @@
+一, 作业改成了IOC
+	自己new的地方 		注册<bean id="" class=""></bean>
+	字段赋值(构造,set)	注入
+						
+
+二, 注解方式注册
+	1.在类上面添加注解	@Component() @Controller() @Service() @Repository()
+	2.开启包扫描	 <context:component-scan base-package="com.itheima"/>
+
+		
+三, 注解方式注入
+	1.简单类型  		@Value("")
+	2.注入对象类型
+						@AutoWired
+
+	
+四, 纯注解(不需要配置文件, 直接删除了)
+	1.@Configuration
+	2.@ComponentScan(basePackages = {"com.itheima"})
+	3.@Bean(value = "queryRunner")
+	4.@Import(value = {JdbcConfig.class}) 
+	5.@PropertySource(value = "classpath:jdbc.properties")
+	
+	工厂(容器): new AnnotationConfigApplicationContext(SpringConfiguration.class)
+五, Spring整合Test
+	1.导入坐标
+	2.在测试类上面
+		*指定运行环境 			@RunWith(value = SpringJUnit4ClassRunner.class)
+		*指定配置类/配置文件    @ContextConfiguration()
+	
+		
+
+		

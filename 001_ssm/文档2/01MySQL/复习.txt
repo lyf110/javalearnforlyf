@@ -1,0 +1,46 @@
+一, MySql概念
+	文件系统, 存数据
+二, Sql概念
+	结构化查询语言; 用sql语法操作数据库
+三, 对数据库CRUD
+	1.创建数据库
+		create database 数据库名字;
+	2.删除数据库
+		drop database 数据库名字;
+	3.切换到指定数据库
+		use 数据库名字;
+四, 对表CRUD 
+	1.创建表
+		create table 表名(
+			列 类型 [约束],
+			列 类型 [约束],
+			列 类型 [约束]
+			
+		);
+		
+		约束: 
+			* not null 
+			* unique
+			* primary key
+			
+	2.删除表
+		drop table 表名;
+	3.修改表 
+五, 对数据的CRUD
+	1. 插入数据
+		insert into 表(列,列) values(值,值); 
+		insert into 表 values(值,值,值...);
+	2. 修改数据
+		update 表 set 列 =值,列=值 [where 条件]
+	3. 删除数据
+		delete from 表 [where 条件]
+	4. 基本查询
+		select [*][列,列..] from 表 [where 条件]	
+		where 条件:  
+					> < = <> 
+					between ... and ...
+					like _ %; username like '张%'
+					in  
+					条件 and 条件 and 条件 ...
+					条件 or 条件
+	
